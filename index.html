@@ -3,11 +3,9 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>New York Times Search</title>
+  <title>Track A Train</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-
-  <script src="https://www.gstatic.com/firebasejs/5.8.6/firebase.js"></script>
   <!-- Style to fix the issue of text extending past card length -->
   <style>
     .card-body a {
@@ -26,7 +24,7 @@
   <div class="container">
 
     <!-- Jumbotron for Title -->
-    <div class="jumbotron" style="background-color: #20315A ; color: white;">
+    <div class="jumbotron" style="background-color: darkred ; color: white;">
       <h1 class="text-center">
         <strong>
           <i class="fa fa-newspaper-o"></i>Track a Train (if you dare)</strong>
@@ -59,24 +57,13 @@
                         <th scope="col">Time the Train Will Be Upon You (minutes)</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tbody">
                       <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
+                        <td>Insane in the Membrane</th>
+                        <td>Death Valley</td>
+                        <td>00:00</td>
+                        <td>1</td>
+                        <td id="minutesUntilTrain"></td>
                       </tr>
                     </tbody>
                   </table>
@@ -93,41 +80,39 @@
         <div class="card">
           <div class="card-header">
             <strong>
-              <i class="fa fa-list-alt"></i>Train Name (if it still exists)</strong>
+              <i class="fa fa-list-alt"></i>Input Your Desires Below</strong>
           </div>
           <div class="card-body">
 
             <!-- Here we create an HTML Form for handling the inputs-->
             <form role="form">
 
+              <div class="form-group">
+                <label for="search">Train Name (if it still exists)</label>
+                <input type="text" class="form-control" id="trainsName">
+              </div>
+
               <!-- Here we create the text box for capturing the search term-->
               <div class="form-group">
                 <label for="search">Desired Destination (good luck!)</label>
-                <input type="text" class="form-control" id="search-term">
+                <input type="text" class="form-control" id="desiredDestination">
               </div>
 
               <!-- Here we capture the number of records that the user wants to retrieve  -->
               <div class="form-group">
-                <label for="pwd">First Train Time (what is time anyway?)</label>
-                <select id="article-count" class="custom-select" aria-labelledby="dropdownMenuButton">
-                  <option selected value="1">1</option>
-                  <!-- Setting the option for 5 as default -->
-                  <option value="5" selected>5</option>
-                  <option value="10">10</option>
-                </select>
+                <label for="search">First Train Time (what is time anyway?)</label>
+                <input type="text" class="form-control" id="firstTrainTime">
               </div>
 
               <!-- Here we capture the Start Year Parameter-->
               <div class="form-group">
                 <label for="start-year">Frequency (subject to change)</label>
-                <input type="text" class="form-control" id="start-year">
+                <input type="text" class="form-control" id="trainFrequency">
               </div>
 
               <!-- Here we have our final submit button -->
-              <button type="submit" class="btn btn-default" id="run-search">
-                <i class="fa fa-search"></i> Search</button>
-              <button class="btn btn-default" id="clear-all">
-                <i class="fa fa-trash"></i> Clear Results</button>
+              <button type="submit" class="btn btn-default" id="submitButton">
+                <i class="fa fa-search"></i>Search</button>
 
             </form>
           </div>
@@ -152,12 +137,11 @@
 
   </div>
 
-  <!-- jQuery JS -->
-  <script src="https://code.jquery.com/jquery.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
-  <!-- Code to the JavaScript File REMOVE LINK LATER-->
-  <script src="NYTCode.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/af.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/af.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.6/firebase.js"></script>
+  <script src="app.js"></script>
 
 </body>
 

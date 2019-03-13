@@ -12,25 +12,38 @@ var config = {
 firebase.initializeApp(config);
 
 let database = firebase.database();
-let trainName = "";
-let destination = "";
-let firstTime = "";
-let frequency = 0;
 
-$("#submitButton").on("click", function(response){
-    event.preventDefault();
-    
-    database.ref().set({
-        trainName: trainName,
-        destination: destination,
-        firstTime: firstTime,
-        frequency: frequency,
+    $("#submitButton").on("click", function(response){
+        event.preventDefault();
+
+        var trainName = $("#trainsName").val().trim();
+        var destination = $("#desiredDestination").val().trim();
+        var firstTime = $("#firstTrainTime").val().trim();
+        var frequency = $("#trainFrequency").val().trim();
+        
+        database.ref().push({
+            trainName: trainName,
+            destination: destination,
+            firstTime: firstTime,
+            frequency: frequency,
+        });
+
+        console.log(trainName);
+
+        $("#trainsName").val("");
+        $("#desiredDestination").val("");
+        $("#firstTrainTime").val("");
+        $("#trainFrequency").val("");
+
     });
 
-    trainName = $("#trainName").val().trim();
-    destination = $("#desiredDestination").val().trim();
-    firstTime = $("#firstTrainTime").val().trim();
-    frequency = $("#frequency").val().trim();
+    database.ref().on("child_added", function(snapshot){
+
+        trainName = snapshot.val().trainName;
+        destination = snapshot.val().destination;
+        firstTime = snapshot.val().firstTime;
+        frequency = snapshot.val().frequency;
+    
 
     let programmaticTrain = $("<tr>");
     let trainNameCell = $("<td>" + trainName + "</td>");
@@ -48,5 +61,18 @@ $("#submitButton").on("click", function(response){
     programmaticTrain.append(frequencyCell);
     $("#tbody").append(programmaticTrain);
 
-})
+    let firstTimeConverted = moment(firstTime, "HH:mm A").subtract(1, "years");
+    let currentTime = moment();
+    let diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+    let tRemainder = diffTime % frequency;
+    let minutesUntillTrain = frequency - tRemainder;
+    let nextTrain = moment().add(minutesUntillTrain);
+    nextTrain = nextTrain.format("hh:mm A");
+    $("#minutesUntilTrain").text(nextTrain);
+    let nextTrainCell = $("<td>" + nextTrain + "</td>");
+    nextTrainCell.attr("id", nextTrain+"Name");
+    programmaticTrain.append(nextTrainCell);
+    $("#tbody").append(programmaticTrain);
+
+    });
 });
